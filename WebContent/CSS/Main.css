@@ -1,0 +1,10 @@
+@CHARSET "UTF-8";
+
+
+.hov[id]:hover {
+    cursor: pointer;
+    background: grey;
+}
+.form-control {
+	width:30px;
+}
