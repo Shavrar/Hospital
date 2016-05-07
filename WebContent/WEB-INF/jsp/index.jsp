@@ -36,7 +36,12 @@
                         </c:if>
                         <TD>${specialty.name}</TD>
                         <TD>${specialty.rate}</TD>
-                        <TD>${specialty.narrow} </TD>
+                        <c:if test="${specialty.narrow}">
+                        <TD><INPUT type="checkbox" class="form-control" name="narrow-t" value="${specialty.narrow}" disabled checked></TD>
+                        </c:if>
+                        <c:if test="${!specialty.narrow}">
+                        <TD><INPUT type="checkbox" class="form-control" name="narrow-t" value="${specialty.narrow}" disabled></TD>
+                        </c:if>
                         <TD>${specialty.count} </TD>
                         <TD>${specialty.sumcost} </TD>
                         <TD><A class="btn btn-default" role="button" href="doctors.html?SpecialtyName=${specialty.name}">View Doctors</A></TD>       

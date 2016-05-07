@@ -59,11 +59,7 @@
 								            </c:if> 
 					            	</c:if>   					            					            	           
 					            </c:forEach>
-					            
-					            <c:if test="${fn:substringAfter(object.className,'.') eq 'Project'}">
-					            	<li class="list-group-item"><b>Successfully finished</b>:&nbsp;${object.finished}</li>
-					            </c:if>
-					            
+					            					            					            
 					            <c:if test="${role eq 'manager' and fn:substringAfter(object.className,'.') eq 'Doctor'}">
 					            	<li class="list-group-item"><a  class="btn btn-default" role="button" href="${editor}${object.id}">Edit</a></li>
 					            </c:if>
@@ -175,8 +171,7 @@
 									</li>
 									
 									<c:forEach var="obj" items="${objects}">
-										<c:if test="${fn:contains(obj.domain_name,object.domain_name) and !empty object.domain_name}">
-											
+										<c:if test="${fn:contains(obj.domain_name,object.domain_name)}">										
 											<c:set target="${obj}" property="domain_name" />
 											<c:set target="${obj}" property="id" value="${null}"/>
 										</c:if>

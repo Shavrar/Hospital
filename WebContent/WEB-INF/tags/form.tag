@@ -37,14 +37,21 @@
 		            	<c:if test="${attr.name eq 'specialty'}">
 			            	<div class="form-group">
 			            	 
-			            	<INPUT type="hidden" class="form-control" name="specialty-t" value="${object.specialty}" readonly>  
+			            	<INPUT type="hidden" class="form-control" name="specialty-t" value="${object.specialty}">
+			            	  
 			            	</div>
 		            	</c:if>
 		            	
 		            	<c:if test="${attr.name eq 'narrow'}">
 			            	<div class="form-group">
 			            	<label>${attr.name}</label> 
-			            	<INPUT type="checkbox" class="form-control" name="narrow-t" value="${object.narrow}" readonly>  
+			            	
+			            	<c:if test="${object.narrow}">
+	                        <TD><INPUT type="checkbox" class="form-control" name="narrow-t" value="${object.narrow}" checked></TD>
+	                        </c:if>
+	                        <c:if test="${!object.narrow}">
+	                        <TD><INPUT type="checkbox" class="form-control" name="narrow-t" value="${object.narrow}" ></TD>
+	                        </c:if>  
 			            	</div>
 		            	</c:if>
 		            	

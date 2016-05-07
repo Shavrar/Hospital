@@ -90,18 +90,18 @@ public class SpecialtyDaoImpl extends BaseDao implements SpecialtyDao {
 	public void update(Specialty entity) throws DataException {
 		 String sql = "UPDATE specialtys SET "
                  + "name = ?, rate = ?, narrow = ?"
-                 + " WHERE id = ?";      
+                 + " WHERE id = ?";  
+		 
       PreparedStatement s = null;
       try {
         
-          s = connection.prepareStatement(sql);
-          
+          s = connection.prepareStatement(sql);         
           s.setString(1, entity.getName());
           s.setInt(2, entity.getRate());
-          s.setBoolean(3, entity.getNarrow());
-          
+          s.setBoolean(3, entity.getNarrow());       
           s.setInt(4, entity.getId());
-          s.executeUpdate();        
+          s.executeUpdate();
+          
       }
       catch(SQLException e){
     	  throw new DataException();

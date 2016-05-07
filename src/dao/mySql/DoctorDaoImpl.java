@@ -24,8 +24,8 @@ public class DoctorDaoImpl extends BaseDao implements DoctorDao {
 
 	@Override
 	public Integer create(Doctor entity) throws DataException {
-		String sql = "INSERT INTO doctors (name, birthday, workday, area, salary, specialty, sex, domain_name) VALUES "
-                + "(?, ?, ?, ?, ?, ?, ?, ?)";
+		String sql = "INSERT INTO doctors (name, birthday, workday, area, salary, sex, domain_name, specialty_id) VALUES "
+                + "(?, ?, ?, ?, ?, ?, ?, (SELECT id FROM specialtys WHERE  name = ?))";
 		     
 		     PreparedStatement s = null;
 		     try {
@@ -36,11 +36,10 @@ public class DoctorDaoImpl extends BaseDao implements DoctorDao {
 		         s.setDate(2, entity.getBirtday());
 		         s.setDate(3, entity.getWorkday());
 		         s.setInt(4, entity.getArea());
-		         s.setInt(5, 0);
-		         s.setString(6, entity.getSpecialty());
-		         s.setString(7, entity.getSex());
-		         s.setString(8, entity.getDomain_name());
-		         
+		         s.setInt(5, 0);		         
+		         s.setString(6, entity.getSex());
+		         s.setString(7, entity.getDomain_name());
+		         s.setString(8, entity.getSpecialty());
 		         s.executeUpdate();	
 		         return 1;
 		     }
@@ -56,8 +55,8 @@ public class DoctorDaoImpl extends BaseDao implements DoctorDao {
 	}
 
 	@Override
-	public Doctor read(Integer identity) throws DataException {
-		String sql = "select * from doctors where id = ?";       
+	public Doctor read(Integer identity) throws DataException {		
+		String sql = "select doctors.*,specialtys.name as sname from doctors join specialtys on doctors.specialty_id = specialtys.id  where doctors.id = ?";
         PreparedStatement s = null;
         ResultSet r = null;
         try {           
@@ -84,7 +83,7 @@ public class DoctorDaoImpl extends BaseDao implements DoctorDao {
 
                 temp.setSalary(0);
 
-                temp.setSpecialty(r.getString("specialty"));
+                temp.setSpecialty(r.getString("sname"));
 
                 temp.setSex(r.getString("sex"));
                 
@@ -109,7 +108,7 @@ public class DoctorDaoImpl extends BaseDao implements DoctorDao {
 	@Override
 	public void update(Doctor entity) throws DataException {
 		String sql = "UPDATE doctors SET "
-                + "name = ?, birthday = ?, workday = ?, area = ?, salary = ?, specialty = ?, sex = ?, domain_name = ? "
+                + "name = ?, birthday = ?, workday = ?, area = ?, salary = ?, sex = ?, domain_name = ? "
                 + "WHERE id = ?";
      
      PreparedStatement s = null;
@@ -122,11 +121,10 @@ public class DoctorDaoImpl extends BaseDao implements DoctorDao {
          s.setDate(2, entity.getBirtday());
          s.setDate(3, entity.getWorkday());
          s.setInt(4, entity.getArea());
-         s.setInt(5, 0);
-         s.setString(6, entity.getSpecialty());
-         s.setString(7, entity.getSex());
-         s.setString(8, entity.getDomain_name());
-         s.setInt(9, entity.getId());
+         s.setInt(5, 0);        
+         s.setString(6, entity.getSex());
+         s.setString(7, entity.getDomain_name());
+         s.setInt(8, entity.getId());
          s.executeUpdate();
          
      }
@@ -169,7 +167,9 @@ public class DoctorDaoImpl extends BaseDao implements DoctorDao {
 
 	@Override
 	public Collection<Doctor> readAllDoctors(String name) throws DataException {
-		String sql = "select * from doctors where specialty = '"+name+"' order by name";     
+		//String sql = "select * from doctors where specialty = '"+name+"' order by name";
+		String sql = "select doctors.*,specialtys.name as sname from doctors join specialtys on doctors.specialty_id = specialtys.id"
+				+ "  where specialtys.name = '"+name+"' order by doctors.name";
         Statement s = null;
         ResultSet r = null;
         try {
@@ -192,7 +192,7 @@ public class DoctorDaoImpl extends BaseDao implements DoctorDao {
 
                 temp.setSalary(0);
 
-                temp.setSpecialty(r.getString("specialty"));
+                temp.setSpecialty(r.getString("sname"));
 
                 temp.setSex(r.getString("sex"));
                 
@@ -219,8 +219,10 @@ public class DoctorDaoImpl extends BaseDao implements DoctorDao {
 
 	@Override
 	public Integer getCount(String name) throws DataException {
-		String sql = "Select Count(*) as temp From doctors "
-                + "WHERE specialty = '"+name+"'";     
+		String sql = "select Count(*) as temp from doctors join specialtys on doctors.specialty_id = specialtys.id"
+				+ "  where specialtys.name = '"+name+"' order by doctors.name";
+		//String sql = "Select Count(*) as temp From doctors "
+                //+ "WHERE specialty = '"+name+"'";     
      Statement s = null;
      ResultSet r = null;
      try {      
