@@ -35,8 +35,14 @@
 						<ul class="list-group">
 					            <c:forEach var="attr" items="${object.className.declaredFields}">
 					            	
-					            	<c:if test="${attr.name ne 'id' and attr.name ne 'client' and attr.name ne 'role' and attr.name ne 'domain_name'}">
+					            	<c:if test="${attr.name ne 'id' and attr.name ne 'client' and attr.name ne 'role' and attr.name ne 'domain_name' and attr.name ne 'area'}">
 					            	<li class="list-group-item"><b>${attr.name}</b>:&nbsp;${object[attr.name]}</li>            			            	    			            	
+					            	</c:if>
+					            	
+					            	<c:if test="${attr.name eq 'area'}"> 
+					            		<c:if test="${object[attr.name] ne '-1'}">
+					            		<li class="list-group-item"><b>${attr.name}</b>:&nbsp;${object[attr.name]}</li> 
+					            		</c:if>
 					            	</c:if>
 					            	
 					            	<c:if test="${attr.name eq 'client'}"> 
@@ -111,8 +117,14 @@
 										    
 										    <c:forEach var="attr" items="${object.className.declaredFields}">
 										            	
-										            	<c:if test="${attr.name ne 'id' and attr.name ne 'client' and attr.name ne 'role' and attr.name ne 'domain_name'}">
+										            	<c:if test="${attr.name ne 'id' and attr.name ne 'client' and attr.name ne 'role' and attr.name ne 'domain_name' and attr.name ne 'area'}">
 										            	<li class="list-group-item"><b>${attr.name}</b>:&nbsp;${object[attr.name]}</li>            			            	    			            	
+										            	</c:if>
+										            	
+										            	<c:if test="${attr.name eq 'area'}"> 
+										            		<c:if test="${object[attr.name] ne '-1'}">
+										            		<li class="list-group-item"><b>${attr.name}</b>:&nbsp;${object[attr.name]}</li> 
+										            		</c:if>
 										            	</c:if>
 										            	
 										            	<c:if test="${attr.name eq 'client'}"> 

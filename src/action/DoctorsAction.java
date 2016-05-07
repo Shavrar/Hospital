@@ -27,8 +27,12 @@ public class DoctorsAction extends Action {
 			DoctorService doctorservice = getService(DoctorService.class);
         	String name = request.getParameter("SpecialtyName");
             Collection<Doctor> doctors = doctorservice.getAllDoctors(name);
+            boolean indicator = specialtyservice.getSpecialtyByName(name).getNarrow();
             for(Doctor doctor: doctors){
-            	doctor.setSalary(specialtyservice.calculateSalary(doctor));           	
+            	doctor.setSalary(specialtyservice.calculateSalary(doctor));   
+            	if(!indicator){
+            		doctor.setArea(-1);
+            	}
             }
             request.setAttribute("doctors", doctors);
             request.setAttribute("SpecialtyName", name);

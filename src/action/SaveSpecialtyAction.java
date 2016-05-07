@@ -6,8 +6,10 @@ import java.io.UnsupportedEncodingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import Entities.Doctor;
 import Entities.Specialty;
 import exception.DataException;
+import service.DoctorService;
 import service.ServiceLocator;
 import service.SpecialtyService;
 
@@ -48,8 +50,16 @@ public class SaveSpecialtyAction extends Action {
             if(specialty.getId() == null) {
                 
             	specialtyservice.AddSpecialty(specialty);
-            } else {              
+            } else {   
+            	boolean narrow = specialtyservice.getSpecialtyById(specialty.getId()).getNarrow();
             	specialtyservice.UpdateSpecialty(specialty);
+            	 DoctorService doctorservice = getService(DoctorService.class);
+            	 if(narrow != specialty.getNarrow() && specialty.getNarrow()){
+	            	for(Doctor doctor: doctorservice.getAllDoctors(specialty.getName())){
+	            		doctor.setArea(0);
+	            		doctorservice.UpdateDoctor(doctor);
+	            	}
+            	 }
             }
 
         } catch(Exception e) {

@@ -23,7 +23,7 @@
 		            <c:forEach var="attr" items="${object.className.declaredFields}">
 		            	
 		            	<c:if test="${attr.name ne 'id' and attr.name ne 'sumcost' and attr.name ne 'specialty'
-		            	and attr.name ne 'role' and attr.name ne 'count' and attr.name ne 'narrow' and attr.name ne 'salary'}">
+		            	and attr.name ne 'role' and attr.name ne 'count' and attr.name ne 'narrow' and attr.name ne 'salary' and attr.name ne 'area'}">
 			            	<div class="form-group">
 			            	<label>${attr.name}</label>
 			            	
@@ -33,6 +33,20 @@
 			            	
 			            	</div>          			            	    			            	
 		            	</c:if>
+		            	
+		            	<c:if test="${attr.name eq 'area'}"> 
+					            		<c:if test="${object[attr.name] ne '-1'}">
+						            		<div class="form-group">
+							            	<label>${attr.name}</label>			            				            	
+							            	<INPUT type="text" id="${attr.name}" class="form-control" name="${attr.name}-t" value="${object[attr.name]}">			            	
+							            	</div>  
+					            		</c:if>
+					            		<c:if test="${object[attr.name] eq '-1'}">
+						            				            				            	
+							            	<INPUT type="hidden" id="${attr.name}" class="form-control" name="${attr.name}-t" value="${object[attr.name]}">			            	
+						            	
+					            		</c:if>
+					    </c:if>
 		            	
 		            	<c:if test="${attr.name eq 'specialty'}">
 			            	<div class="form-group">

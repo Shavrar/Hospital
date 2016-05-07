@@ -10,6 +10,7 @@ import Entities.Doctor;
 import exception.DataException;
 import service.DoctorService;
 import service.ServiceLocator;
+import service.SpecialtyService;
 
 public class EditDoctorAction extends Action {
 
@@ -21,19 +22,29 @@ public class EditDoctorAction extends Action {
 	@Override
 	public void exec(HttpServletRequest request, HttpServletResponse response) throws DataException {
 		 try {
+			 SpecialtyService specialtyservice = getService(SpecialtyService.class);
 			 DoctorService doctorservice = getService(DoctorService.class);
-	            
+			 
 	            if(request.getParameter("id")!=null){
 	            	Integer id = Integer.parseInt(request.getParameter("id"));	
-	            	Doctor doctor = doctorservice.getDoctorById(id);	            
+	            	Doctor doctor = doctorservice.getDoctorById(id);	
+	            	boolean indicator = specialtyservice.getSpecialtyByName(doctor.getSpecialty()).getNarrow(); 
+	    	        if(!indicator){
+	    	        	doctor.setArea(-1);
+	    	        }
 	            	request.setAttribute("Doctor", doctor);	            
 	            }
 	            else{
 	            	Doctor doctor = new Doctor();
 	            	doctor.setSpecialty(request.getParameter("SpecialtyName"));
+	            	boolean indicator = specialtyservice.getSpecialtyByName(request.getParameter("SpecialtyName")).getNarrow(); 
+	    	        if(!indicator){
+	    	        	doctor.setArea(-1);
+	    	        }
 	            	request.setAttribute("Doctor", doctor);	       	            
 	            }
-	            
+	        
+	        
 	        } catch(NumberFormatException e) {
 
 	        } catch(Exception e) {
