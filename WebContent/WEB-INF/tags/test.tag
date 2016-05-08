@@ -183,7 +183,16 @@
 									</li>
 									
 									<c:forEach var="obj" items="${objects}">
-										<c:if test="${fn:contains(obj.domain_name,object.domain_name)}">										
+									  
+										<c:if test="${fn:contains(obj.domain_name,object.domain_name) and !empty object.domain_name and obj ne object}">																					
+											<c:set target="${obj}" property="domain_name" />
+											<c:set target="${obj}" property="id" value="${null}"/>
+										</c:if>
+									</c:forEach>
+									
+									<c:forEach var="obj" items="${objects}">
+									  
+										<c:if test="${fn:contains(obj.domain_name,object.domain_name) and !empty object.domain_name}">																					
 											<c:set target="${obj}" property="domain_name" />
 											<c:set target="${obj}" property="id" value="${null}"/>
 										</c:if>
